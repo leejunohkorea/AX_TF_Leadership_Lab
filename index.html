@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script src="firebase-config.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AX TF Leadership Lab v5 · 굿인사이트</title>
@@ -580,7 +581,7 @@ h1 .modepill{font-size:15px;padding:4px 12px}
 </style>
 </head>
 <body>
-<header class="top"><div class="brand">GOOD INSIGHT <i>/</i> AX TF LAB<small>LEADERSHIP · TEAM DESIGN · COLLECTIVE LEARNING</small></div><div class="row nowrap"><span id="timer" class="timer hide" aria-live="off"></span><button class="small" data-action="guide">진행 가이드</button><button class="small hidem" data-action="fac">강사 패널</button><button class="small hidem" data-action="ranking">팀 비교</button></div></header>
+<header class="top"><div class="brand">GOOD INSIGHT <i>/</i> AX TF LAB<small>LEADERSHIP · TEAM DESIGN · COLLECTIVE LEARNING</small></div><div class="row nowrap"><span id="timer" class="timer hide" aria-live="off"></span><button class="small" data-action="guide">진행 가이드</button><button class="small hidem" data-action="fac">강사 패널</button><button class="small hidem" data-action="ranking">진행자 결과</button></div></header>
 <main id="app"></main>
 <div class="footer"><span>굿인사이트 · AX 시대 리더십 시뮬레이션</span><span>v5.0 · 가상 기관 · 가상 인물 · 교육용 점수 모델</span></div>
 <dialog id="modal" aria-label="안내"></dialog>
@@ -1015,7 +1016,7 @@ function shell(body){return `<div class="topline"><div class="steps">${S.stage>0
 // ───────── 0. 미션 ─────────
 function mission(){return `<section class="panel navy hero"><div class="tag">MISSION</div><h1 style="max-width:900px;margin-top:14px">AI가 먼저 응대했습니다.<br><b>고객은 더 화가 났습니다.</b></h1><div class="crisis"><div>${serviceIcon(0)}<b>엉뚱한 답변</b></div><div>${serviceIcon(1)}<b>단호한 거절</b></div><div>${serviceIcon(2)}<b>지친 상담사</b></div></div><p class="mission-call" style="color:#fff;margin:0">180일 안에, <span style="color:var(--lime)">AI와 사람의 역할을 다시 나누는 운영안</span>을 만드세요.</p></section>
 <div class="grid two spacing"><section class="panel"><div class="eyebrow">이 게임에서 보는 것</div><p style="font-size:17px;margin:0 0 14px"><b>운영안만이 아닙니다.</b> AI 실력이 서로 다른 팀원들이 <b>함께 일하고, 성장하고, 지치지 않게</b> 이끈 리더십을 봅니다.</p><div class="flow"><div><b>1</b>리더 유형</div><div><b>2</b>팀원 4명</div><div><b>3</b>업무 나누기</div><div><b>4</b>7라운드</div><div><b>5</b>리포트</div></div></section>
-<section class="panel tint"><div class="pc-k" style="width:auto;margin-bottom:8px">진행 방식</div><div class="modepick"><button class="${isSolo()?'on':''}" data-action="mode" data-id="solo" aria-pressed="${isSolo()}"><b>개인전</b><span>각자 혼자 판단해봅니다</span></button><button class="${!isSolo()?'on':''}" data-action="mode" data-id="team" aria-pressed="${!isSolo()}"><b>팀전</b><span>팀이 토의하며 함께 정합니다</span></button></div><label class="spacing-s">${isSolo()?'이름 (또는 조·번호)':'팀 이름'}<input id="teamname" type="text" maxlength="40" placeholder="${isSolo()?'예: 3조 홍길동':'예: 3조 고객경험팀'}" value="${esc(S.name)}"></label><div class="actions"><button class="primary big" data-action="start">시작하기 →</button></div><p class="tiny muted" style="margin:10px 0 0">가상 기관·가상 인물입니다. 실제 인사평가 도구가 아닙니다.</p></section></div>`}
+<section class="panel tint"><div class="pc-k" style="width:auto;margin-bottom:8px">진행 방식</div><div class="modepick"><button class="${isSolo()?'on':''}" data-action="mode" data-id="solo" aria-pressed="${isSolo()}"><b>개인전</b><span>각자 혼자 판단해봅니다</span></button><button class="${!isSolo()?'on':''}" data-action="mode" data-id="team" aria-pressed="${!isSolo()}"><b>팀전</b><span>팀이 토의하며 함께 정합니다</span></button></div><label class="spacing-s">교육 회차<input id="sessionname" type="text" maxlength="80" placeholder="진행자가 안내한 회차명" value="${esc(S.session||'')}"></label><p class="tiny muted">완료 시 회차·이름·점수·선택 기록이 진행자에게 제출됩니다. 실명 대신 지정 별칭을 사용할 수 있습니다.</p><label class="spacing-s">${isSolo()?'이름 (또는 조·번호)':'팀 이름'}<input id="teamname" type="text" maxlength="40" placeholder="${isSolo()?'예: 3조 홍길동':'예: 3조 고객경험팀'}" value="${esc(S.name)}"></label><div class="actions"><button class="primary big" data-action="start">시작하기 →</button></div><p class="tiny muted" style="margin:10px 0 0">가상 기관·가상 인물입니다. 실제 인사평가 도구가 아닙니다.</p></section></div>`}
 
 // ───────── 1. 리더 유형 ─────────
 function leaderView(){return `${todo([{label:'리더 유형 하나 고르기',done:!!S.leaderType}])}<h1>나는 어떤 리더로 시작할까요?</h1><p class="intro">강점이 있으면 빈틈도 있습니다. 내 빈틈을 채워줄 팀원을 다음 단계에서 고르게 됩니다.</p>
@@ -1097,7 +1098,7 @@ ${S.workshop&&S.workshop.tier?`<section class="panel spacing wsfinal"><div><span
 ${S.rollgame&&S.rollgame.tier?`<section class="panel spacing wsfinal"><div><span class="tiny muted">D+125 골인 챌린지 · ${S.rollgame.mode==='solo'?'개인전':'팀전'}</span><h3 style="margin:4px 0 0">${RG_TIER[S.rollgame.tier].s} ${RG_TIER[S.rollgame.tier].n}${S.rollgame.secs!=null?' · '+mcFmt(S.rollgame.secs):''}</h3></div><div class="row"><span class="pill ${S.rollgame.pts?'':'orange'}">보너스 ${rgPts(S.rollgame.pts)}</span></div></section>`:''}
 <section class="lesson spacing"><div class="lesson-k">내 조직으로 가져갈 질문</div><p class="lesson-t" style="font-size:20px">누군가의 AI 실력에 기댔나요, 함께 할 수 있게 만들었나요?<br>리더인 나는 가장 바쁜 사람이었나요, 팀이 일할 수 있게 만든 사람이었나요?</p></section>
 ${more('더 보기 · 최종 운영안 · 팀원별 변화 · 지표',`<h4>최종 운영안</h4>${boardView(boardState())}<h4 class="spacing">팀원별 변화</h4><div class="tablewrap"><table><thead><tr><th>구성원</th><th>AI 처음 → 끝</th><th>평균 상태</th><th>중요 과제</th></tr></thead>${roster().map(p=>{const al=avg(S.history.map(h=>h.per.find(x=>x.id===p.id).load));const exp=new Set(S.history.flatMap(h=>h.tasks.filter(t=>t.id===p.id&&TASKS[t.i].kind==='중요').map(t=>t.i)));return `<tr><th>${nameOf(p.id)}</th><td>${aiWord(p.v[0])} → ${aiWord(effective(p)[0])}</td><td>${loadBadge(al)}</td><td>${exp.size}종</td></tr>`}).join('')}</table></div><h4 class="spacing">최종 지표</h4>${metricCards()}`)}
-<div class="actions noprint"><button data-action="print">인쇄 / PDF</button><button data-action="export">결과 JSON</button><button data-action="ranking">팀 비교</button><button class="primary" data-action="reset">새 팀 시작</button></div>`}
+<div class="actions noprint"><button class="primary" onclick="axPDF()">내 리포트 PDF 다운로드</button><button data-action="print">인쇄 / PDF 저장</button><button onclick="axSubmit()">결과 다시 제출</button><span id="cloud-status" role="status"></span><button data-action="export">결과 JSON</button><button data-action="ranking">진행자 결과</button><button class="primary" data-action="reset">새 팀 시작</button></div>`}
 
 // ───────── 모달 ─────────
 function personModal(id){const p=person(id),v=effective(p),h=S.history.at(-1),w=h?h.per.find(x=>x.id===id):null,tasks=TASKS.filter((t,i)=>S.assignments[i]===id);showModal(`<div class="profile-head">${portrait(id)}<div><h2 style="margin:0">${nameOf(id)}</h2><p class="muted" style="margin:4px 0">${p.role}</p>${aiBadge(v[0])} ${w?loadBadge(w.load):''} ${id!==-1&&S.revealed.includes(id)?`<span class="pill">숨은 가능성 발견</span>`:''}</div></div><div class="grid two spacing"><div>${bars(v)}</div><div><h3>맡은 과제 ${tasks.length}개</h3>${tasks.map(t=>`<p style="margin:0 0 6px"><span class="kind k-${t.kind}">${t.kind}</span> ${t.n}</p>`).join('')||'<p class="muted">없음</p>'}${id!==-1?`<div class="rumor spacing-s"><b>미확인 평판</b>${p.rumor}</div>`:''}</div></div>`)}
@@ -1106,12 +1107,12 @@ ${more('진행 순서',`<p><b>권장 운영:</b> 먼저 <b>개인전</b>으로 �
 ${more('화면 읽는 법',`<p><b>여유 · 빠듯 · 과부하</b>: 그 사람의 이번 라운드 업무 부담입니다. 과부하면 과제 품질이 떨어지고 피로가 쌓입니다.</p><p><b>AI 초보 · 보통 · 능숙</b>: AI 활용 실력입니다. 초보는 도움을 요청하고, 그 요청은 능숙한 사람에게 몰립니다.</p><p>강사 패널에서 ‘숫자 표시’를 켜면 실제 수치가 함께 보입니다.</p>`)}
 ${more('점수 계산 (요약)',`<p>최종 = TF 성과 25% + 과제 수행(7회 평균) 30% + 팀 균형(7회 평균) 25% + 성장·공유 20% + 골인 챌린지 보너스(0~1.5점).</p><p>TF 성과 = 운영안 50% + 팀 신뢰 25% + 지속가능성 25% (조건부 −4, 재검토 −10). 팀 균형 = 지속가능성 50% + 의존 분산 25% + 성장 기회 25%. 성장·공유 = 처음 AI가 낮던 사람들의 성장 60% + 공유 20% + 백업 20%.</p><p>리더 유형: 추진형은 진척 +1.3·팀원 부담 조금↑, 소통형은 팀 신뢰 +1.8·진척 −0.2, 분석형은 과제 품질 +1.2·리더 부담 조금↑.</p>`)}
 ${more('모형의 한계',`<p>인물·수치·결과는 토의를 위한 교육용 설계 가정입니다. 현장 검증을 거치지 않았으므로 실제 평가에 쓸 수 없습니다. 평판과 성별은 점수에 쓰이지 않습니다.</p>`)}
-<div class="actions"><button data-action="ranking">팀 비교</button><button data-action="fac">강사 패널</button><button data-action="reset">처음부터</button></div>`)}
+<div class="actions"><button data-action="ranking">진행자 결과</button><button data-action="fac">강사 패널</button><button data-action="reset">처음부터</button></div>`)}
 function facModal(){const canFire=S.stage===3&&!S.feedback&&S.assignDone&&!S.assignEditing&&(S.round>0||S.kickoffDone)&&!wsInWorkshop()&&!rgActive();const fired=S.facEvents[S.round]||[];showModal(`<h2>강사 패널</h2><h3 class="spacing-s">라운드 타이머</h3><div class="timerbtns">${[5,8,10,15].map(m=>`<button data-action="timer" data-id="${m}">${m}분</button>`).join('')}<button data-action="timer" data-id="0">정지</button></div>
 <h3 class="spacing">돌발 카드 ${canFire?`<span class="pill">R${S.round+1}에 발동</span>`:'<span class="pill orange">결정 화면에서만</span>'}</h3><div class="facgrid">${FAC_EVENTS.map(e=>`<button class="${fired.includes(e.id)?'used':''}" data-action="fac-event" data-id="${e.id}" ${canFire?'':'disabled'}><b>${fired.includes(e.id)?'✓ ':''}${e.title}</b>${e.desc}</button>`).join('')}</div>
 <h3 class="spacing">팀 워크숍 (짝 맞추기)</h3><div class="row" style="margin-bottom:8px"><span class="tiny muted">본게임 미리보기</span>${[5,7,10].map(v=>`<button class="small ${mcPreview()===v?'dark':''}" data-action="ws-pv" data-id="${v}">${v}초</button>`).join('')}</div><div class="row"><button data-action="ws-practice">게임만 체험</button>${S.stage===3&&S.workshop&&!S.workshop.done&&!S.workshop.tier?'<button data-action="ws-skip">워크숍 건너뛰기</button>':''}</div>
 <h3 class="spacing">골인 챌린지 (5라운드 뒤)</h3><div class="row" style="margin-bottom:8px"><span class="tiny muted">시간 기준</span>${[[1,'기본'],[1.5,'×1.5 여유'],[2,'×2 넉넉']].map(([v,n])=>`<button class="small ${rgScale()===v?'dark':''}" data-action="rg-scale" data-id="${v}">${n}</button>`).join('')}<span class="tiny muted">최우수 개인 ${mcFmt(rgLimits('solo').best)} · 팀 ${mcFmt(rgLimits('team').best)}</span></div><div class="row"><button data-action="rg-practice">게임만 체험</button>${S.stage===3&&S.rollgame&&!S.rollgame.done&&!S.rollgame.tier?'<button data-action="rg-skip">골인 챌린지 건너뛰기</button>':''}</div>
-<h3 class="spacing">화면</h3><div class="row"><button data-action="present">${document.body.classList.contains('present')?'발표 모드 끄기':'발표 모드 (글자 크게)'}</button><button data-action="nums">${showNums()?'숫자 숨기기':'숫자 표시'}</button><button data-action="ranking">팀 비교</button></div>`)}
+<h3 class="spacing">화면</h3><div class="row"><button data-action="present">${document.body.classList.contains('present')?'발표 모드 끄기':'발표 모드 (글자 크게)'}</button><button data-action="nums">${showNums()?'숫자 숨기기':'숫자 표시'}</button><button data-action="ranking">진행자 결과</button></div>`)}
 function makeRecord(){const ar=archetype();return {schema:'ax-tf-result-v2',model:VERSION,id:S.id,name:S.name,mode:S.mode||'team',date:new Date().toISOString(),scores:finalScores(),outcome:outcome().t,archetype:ar.top,leaderType:S.leaderType,team:S.team.map(id=>PEOPLE[id].n),metrics:[...S.metrics],kickMsg:S.kickMsg||'',workshop:S.workshop?{attempts:S.workshop.attempts,tier:S.workshop.tier,mode:S.workshop.mode,choice:S.workshop.choice}:null,rollgame:S.rollgame&&S.rollgame.tier?{tier:S.rollgame.tier,secs:S.rollgame.secs,mode:S.rollgame.mode,tries:S.rollgame.tries,pts:S.rollgame.pts}:null,choices:S.history.map(h=>({round:h.round+1,pick:'ABC'[h.pick],ivs:h.ivs.map(i=>i.type),note:h.note,headline:h.headline.title}))}}
 function modeSummary(a){const g=m=>a.filter(r=>(r.mode||'team')===m);const s=g('solo'),t=g('team');if(!s.length||!t.length)return '';const av=(l,k)=>r1(avg(l.map(r=>k(r))));const row=(n,k)=>`<tr><th>${n}</th><td>${av(s,k)}</td><td>${av(t,k)}</td><td>${(av(t,k)-av(s,k)>=0?'+':'')+r1(av(t,k)-av(s,k))}</td></tr>`;return `<div class="modesum"><h3 style="margin:0 0 6px">개인전 vs 팀전 평균</h3><p class="tiny muted" style="margin:0 0 8px">개인전 ${s.length}명 · 팀전 ${t.length}팀</p><div class="tablewrap"><table><thead><tr><th></th><th>개인전</th><th>팀전</th><th>차이</th></tr></thead>${row('종합',r=>r.scores.total)}${row('과제 수행',r=>r.scores.tasks)}${row('팀 균형',r=>r.scores.balance)}${row('성장·공유',r=>r.scores.learning)}</table></div><p class="tiny muted" style="margin:8px 0 0">토의 질문 · 함께 정했을 때 무엇이 달라졌나요? 달라지지 않았다면 왜일까요?</p></div>`}
 function rankingModal(){const a=allRanks().sort((x,y)=>y.scores.total-x.scores.total);showModal(`<h2>결과 비교</h2>${modeSummary(a)}<div class="tablewrap"><table><thead><tr><th>순위</th><th>이름·팀</th><th>방식</th><th>종합</th><th>보고 결과</th><th>리더 유형</th><th>패턴</th></tr></thead>${a.map((r,i)=>`<tr><td><b>${i+1}</b></td><td>${esc(r.name)}</td><td>${(r.mode||'team')==='solo'?'개인전':'팀전'}</td><td><b>${r1(r.scores.total)}</b></td><td>${esc(r.outcome||'')}</td><td>${LEADERS[r.leaderType]?LEADERS[r.leaderType].n:''}</td><td>${ARCH[r.archetype]?ARCH[r.archetype].n.replace('\n',' '):''}</td></tr>`).join('')||'<tr><td colspan="7">아직 완료한 기록이 없습니다.</td></tr>'}</table></div><p class="tiny muted spacing-s">같은 사람(조)이 개인전과 팀전에서 무엇을 다르게 골랐는지 비교해보세요.</p><div class="actions"><button data-action="clear-ranks">기록 비우기</button><button class="primary" data-action="import">결과 JSON 가져오기</button></div>`)}
@@ -1385,7 +1386,7 @@ function render(){save();if(typeof pcHide==='function')pcHide();document.getElem
 function animateCounts(){const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count,from=+el.dataset.from||0,dec=+el.dataset.dec||0;if(reduce){el.textContent=to.toFixed(dec);return}const t0=performance.now(),dur=1100;const step=now=>{const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=(from+(to-from)*e).toFixed(dec);if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step);el.removeAttribute('data-count')});setTimeout(()=>document.querySelectorAll('[data-w]').forEach(el=>{el.style.width=el.dataset.w+'%';el.removeAttribute('data-w')}),60)}
 function goTop(){window.scrollTo({top:0,behavior:'smooth'})}
 function download(data,name){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-function advanceRound(){if(S.round===6){S.stage=4;recordResult(makeRecord())}else{S.round++;S.feedback=false;S.pick=null;S.ivs=[];S.note='';S.move=null}}
+function advanceRound(){if(S.round===6){S.stage=4;recordResult(makeRecord());setTimeout(()=>axSubmit(),0)}else{S.round++;S.feedback=false;S.pick=null;S.ivs=[];S.note='';S.move=null}}
 function canDecide(){return S.stage===3&&!S.feedback&&S.assignDone&&!S.assignEditing&&(S.round>0||S.kickoffDone)&&!wsInWorkshop()&&!rgActive()}
 
 document.addEventListener('click',e=>{
@@ -1394,7 +1395,7 @@ document.addEventListener('click',e=>{
  switch(a){
  case'guide':return guideModal();
  case'fac':return facModal();
- case'ranking':return rankingModal();
+ case'ranking':location.href='?admin=1';return;
  case'close':return document.getElementById('modal').close();
  case'print':return window.print();
  case'person':return personModal(id);
@@ -1405,10 +1406,10 @@ document.addEventListener('click',e=>{
  case'timer':clearInterval(timer.int);timer.end=id?Date.now()+id*60000:null;if(id)timer.int=setInterval(tickTimer,1000);tickTimer();document.getElementById('modal').close();if(id)toast(id+'분 타이머를 시작했습니다.');return;
  case'fac-event':{if(!canDecide())return;const l=S.facEvents[S.round]||[];S.facEvents[S.round]=l.includes(b.dataset.id)?l.filter(x=>x!==b.dataset.id):[...l,b.dataset.id];save();render();facModal();return}
  case'clear-ranks':if(!confirm('이 브라우저의 팀 비교 기록을 모두 지울까요?'))return;try{localStorage.removeItem(RANKKEY)}catch(err){}memoryRanks=[];return rankingModal();
- case'reset':if(!confirm('처음부터 새 팀으로 시작할까요? 팀 비교 기록은 유지됩니다.'))return;wsReset();rgReset();rgPractice=false;S=fresh();document.getElementById('modal').close();top=true;break;
- case'start':{const n=document.getElementById('teamname').value.trim();if(!n){toast('팀 이름을 입력해주세요.');document.getElementById('teamname').focus();return}S.name=n;S.stage=1;top=true;break}
+ case'reset':if(S.stage===4&&!S.cloudSubmitted&&!confirm('결과 제출이 확인되지 않았습니다. PDF 또는 JSON을 먼저 저장하는 것을 권장합니다. 그래도 새로 시작할까요?'))return;if(!confirm('처음부터 새 팀으로 시작할까요? 팀 비교 기록은 유지됩니다.'))return;wsReset();rgReset();rgPractice=false;S=fresh();document.getElementById('modal').close();top=true;break;
+ case'start':{const session=document.getElementById('sessionname').value.trim();if(!session){toast('교육 회차를 입력해주세요.');return}S.session=session;const n=document.getElementById('teamname').value.trim();if(!n){toast('팀 이름을 입력해주세요.');document.getElementById('teamname').focus();return}S.name=n;S.stage=1;top=true;break}
  case'leader':if(S.stage===1)S.leaderType=b.dataset.id;break;
- case'mode':if(S.stage===0){S.mode=b.dataset.id==='solo'?'solo':'team';const n=document.getElementById('teamname');if(n)S.name=n.value}break;
+ case'mode':if(S.stage===0){S.session=document.getElementById('sessionname').value.trim();S.mode=b.dataset.id==='solo'?'solo':'team';const n=document.getElementById('teamname');if(n)S.name=n.value}break;
  case'to-team':if(S.leaderType){S.stage=2;top=true}break;
  case'back':if(S.stage>0&&S.stage<3){S.stage--;top=true}break;
  case'select-person':if(S.stage===2){if(S.team.includes(id))S.team=S.team.filter(x=>x!==id);else if(S.team.length<4)S.team.push(id)}break;
@@ -1477,5 +1478,6 @@ try{if(localStorage.getItem(KEY+'-present'))document.body.classList.add('present
 render();
 
 </script>
+<script src="cloud.js"></script>
 </body>
 </html>
