@@ -1,5 +1,9 @@
-// Firebase 콘솔 > 프로젝트 설정 > 내 앱 > 웹 앱의 firebaseConfig 값을 입력하세요.
-// 이 설정은 공개 웹 설정입니다. 관리자 비밀번호나 서비스 계정 키를 넣지 마세요.
+// Firebase public web configuration
 window.AX_FIREBASE_CONFIG = {
-  apiKey: "", authDomain: "", projectId: "", appId: ""
+  "apiKey": "AIzaSyDLKFDAN-3VscTmU4HdmujvBR6anDq1gUM",
+  "authDomain": "goodinsight-ax-leadership.firebaseapp.com",
+  "projectId": "goodinsight-ax-leadership",
+  "storageBucket": "goodinsight-ax-leadership.firebasestorage.app",
+  "messagingSenderId": "654364823290",
+  "appId": "1:654364823290:web:db2e32131b0b1533704343"
 };
