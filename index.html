@@ -579,6 +579,29 @@ h1 .modepill{font-size:15px;padding:4px 12px}
 @media(max-width:600px){.rg-board{gap:2px;padding:4px}.rg-cell{border-radius:5px}.rg-nextbox{margin-left:0;width:100%}.rg-status{gap:12px}}
 
 </style>
+<style>
+body.episode-mode{background:#eef0e8}
+body.episode-mode header.top,body.episode-mode .footer,body.episode-mode #pcard{display:none!important}
+body.episode-mode main{max-width:1440px;padding:0 40px}
+.episode{min-height:100svh;display:flex;flex-direction:column;justify-content:center;gap:24px;padding:36px 0;color:#132d35}
+.ep-heading{text-align:center}.ep-number{display:inline-block;font-size:13px;letter-spacing:.23em;font-weight:900;color:#087b6b;padding:7px 16px;border-radius:24px;background:#dfe9dd}
+.ep-heading h1{font-size:clamp(30px,3.4vw,50px);margin:14px 0 10px;letter-spacing:-.045em}.ep-heading p{font-size:clamp(16px,1.5vw,21px);margin:0;color:#50656a}
+.ep-stage{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;padding:20px 0}
+.ep-person{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0;padding:24px 22px;background:#fff;border:1px solid #dce3d8;border-radius:26px;box-shadow:0 12px 30px #18343e07}
+.ep-prop{width:100%;border-radius:14px;background:#edf2ed;min-height:108px;padding:14px 18px;position:relative;overflow:hidden}.ep-prop b{font-size:16px;position:relative;z-index:1}.ep-glyph{float:right;font-size:33px;line-height:1;color:#0a8070;font-weight:900}.ep-paper{margin-top:15px;width:65%;display:grid;gap:6px}.ep-paper i{height:5px;background:#c9d7cc;border-radius:6px}.ep-paper i:last-child{width:65%}
+.ep-character{display:flex;align-items:center;gap:14px;width:100%;margin:20px 0 12px}.ep-character .portrait{width:94px;height:94px;border-radius:24px}.ep-character>span{font-size:17px;font-weight:800}
+.ep-quote{font-size:clamp(19px,1.7vw,25px);font-weight:700;line-height:1.65;letter-spacing:-.025em;margin:0;width:100%;min-height:84px;word-break:keep-all}
+.ep-bottom{text-align:center}.ep-bottom button{min-width:240px;padding:16px 28px;font-size:19px;border-radius:15px}.ep-bottom button span{margin-left:24px}
+.episode-requests .ep-person-2{border:2px solid #d77e54;background:#fffaf5}.episode-requests .ep-person-2 .ep-prop{background:#f7e4d6}
+.episode-handoff .ep-person-1 .ep-prop{background:#e4edf8}.episode-evidence .ep-person-1 .ep-prop{background:#fff0d8}.episode-evidence .ep-person-1 .ep-glyph{color:#ad6320}
+.episode-recognition .ep-person-0 .ep-prop{background:#fff0c9}.episode-recognition .ep-person-0 .ep-glyph{color:#ad7a11}
+.episode-absence .ep-person-0{background:#e5e9e5;border-style:dashed}.episode-absence .ep-person-0 .portrait{filter:grayscale(1);opacity:.5}
+.episode-finish .ep-person-2{border-color:#8cb6a0;background:#f6faf2}
+.round-revisit{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 20px}.round-revisit h2{margin:0;font-size:23px}
+@media(max-width:700px){body.episode-mode main{padding:0 16px}.episode{padding:28px 0;gap:18px}.ep-stage{grid-template-columns:1fr;gap:12px;padding:0}.ep-person{padding:16px;display:grid;grid-template-columns:74px 1fr;gap:10px 16px}.ep-prop{grid-column:2;grid-row:1;min-height:0;padding:8px 12px}.ep-prop b{font-size:13px}.ep-glyph{font-size:22px}.ep-paper{display:none}.ep-character{grid-column:1;grid-row:1/3;display:flex;flex-direction:column;gap:5px;margin:0}.ep-character .portrait{width:68px;height:68px}.ep-character>span{font-size:13px}.ep-quote{grid-column:2;min-height:0;font-size:18px}.ep-bottom button{width:100%}}
+@media(prefers-reduced-motion:reduce){.episode *{animation:none!important}}
+
+</style>
 </head>
 <body>
 <header class="top"><div class="brand">GOOD INSIGHT <i>/</i> AX TF LAB<small>LEADERSHIP · TEAM DESIGN · COLLECTIVE LEARNING</small></div><div class="row nowrap"><span id="timer" class="timer hide" aria-live="off"></span><button class="small" data-action="guide">진행 가이드</button><button class="small hidem" data-action="fac">강사 패널</button><button class="small hidem" data-action="ranking">진행자 결과</button></div></header>
@@ -1053,7 +1076,7 @@ function hud(a,label){return `<div class="hud" aria-label="팀 상태"><span cla
 function moveBox(o){const opt=(sel,list)=>list.map(([v,t])=>`<option value="${v}" ${sel===v?'selected':''}>${t}</option>`).join('');return `<div class="movebox"><b>⇄ 실제로 일을 옮겨야 합니다</b><div class="row spacing-s"><label class="tiny">옮길 과제<select id="mv-task">${opt(S.move.task,TASKS.map((t,i)=>[i,`${t.n} (지금: ${nameOf(S.assignments[i])})`]))}</select></label><span class="mv-arrow">→</span><label class="tiny">새 담당<select id="mv-to">${opt(S.move.to,[-1,...S.team].map(id=>[id,nameOf(id)]))}</select></label></div>${!moveReady()?'<p class="need" style="margin:8px 0 0">지금 담당과 다른 사람을 고르세요</p>':''}</div>`}
 function ivPanel(){const used=ivCost(),total=leaderTime(),left=total-used,team=S.team.map(person);const opts=list=>list.map(p=>`<option value="${p.id}">${nameOf(p.id)}</option>`).join('');return `<div class="stephead"><span class="stepno">2</span><h2>리더가 직접 쓸 시간 <span class="muted" style="font-size:15px;font-weight:600">(선택)</span></h2><span class="sub budget">남은 시간 <span class="pips">${Array.from({length:total},(_,i)=>`<i class="${i<left?'':'off'}"></i>`).join('')}</span> ${left}/${total}</span></div><div class="ivrow">${Object.entries(IV).map(([k,d])=>{const dis=d.cost>left;return `<div class="iv"><div class="row between nowrap"><h4>${d.n}</h4><span class="tiny muted">${d.cost}시간</span></div><p>${d.desc}</p>${d.targets.map((tg,j)=>`<label class="tiny">${tg}<select id="iv-${k}-${j}">${opts(k==='pair'&&j===0?[person(-1),...team]:team)}</select></label>`).join('')}<button class="small ${dis?'':'dark'}" data-action="add-iv" data-type="${k}" ${dis?'disabled':''}>추가</button></div>`}).join('')}</div>${S.ivs.length?`<div class="chosen-ivs">${S.ivs.map((iv,j)=>`<span>${IV[iv.type].n} · ${nameOf(iv.a)}${iv.b!==undefined?' → '+nameOf(iv.b):''}<button data-action="del-iv" data-id="${j}" aria-label="취소">×</button></span>`).join('')}</div>`:''}<p class="tiny muted spacing-s">개입할수록 리더도 바빠집니다. 리더가 과부하면 운영안 진척이 줄어듭니다.</p>`}
 function decisionView(r){const o=S.pick!==null?r.options[S.pick]:null,preview=assess(o,S.ivs,S.round,assignWithMove());const over=preview.per.filter(p=>p.load>CAP);
- return `${todo([{label:'상황 읽기',done:true},{label:'운영 방식 고르기',done:S.pick!==null},...(o&&o.move?[{label:'옮길 일 정하기',done:moveReady()}]:[]),{label:'리더 시간 쓰기',done:S.ivs.length>0,optional:true},{label:'결정 확정',done:false}])}${situation(r)}
+ return `${todo([{label:'상황 읽기',done:true},{label:'운영 방식 고르기',done:S.pick!==null},...(o&&o.move?[{label:'옮길 일 정하기',done:moveReady()}]:[]),{label:'리더 시간 쓰기',done:S.ivs.length>0,optional:true},{label:'결정 확정',done:false}])}<div class="round-revisit"><h2>ROUND ${S.round+1} · ${r.title}</h2><button class="small" data-action="episode-revisit">상황 다시 보기</button></div>${roundEvents().length?`<section class="situation" style="display:block;padding:18px"><div class="events">${roundEvents().map(eventCard).join('')}</div></section>`:''}
 ${hud(preview,o||S.ivs.length?'선택하면<br>이렇게 됩니다':'지금<br>팀 상태')}
 ${over.length?alertBox([{lv:'red',t:`<b>${over.map(p=>p.n).join(', ')}</b> — 이대로면 과부하입니다.`}],'과부하 경고'):''}
 <div class="reassign"><span>배정을 바꾸고 싶나요? <small>바뀐 과제는 이번 라운드에 인수인계 비용이 생깁니다.</small></span><button data-action="edit-work">⇄ 업무 다시 나누기</button></div>
@@ -1062,7 +1085,28 @@ ${o&&o.move?moveBox(o):''}
 ${ivPanel()}
 ${more('판단 근거 메모 (선택)',`<textarea id="reason" rows="3" maxlength="300" placeholder="무엇을 포기하고 무엇을 지키기로 했나요?">${esc(S.note)}</textarea>`,!!S.note)}
 <div class="commitbar"><span class="${S.pick!==null&&moveReady()?'ready':'need'}">${S.pick===null?'← 먼저 운영 방식(A·B·C)을 고르세요':!moveReady()?'← 옮길 일을 정하세요':'✓ 준비 완료 — 확정하세요'}</span><button class="primary big" data-action="commit" ${S.pick===null||!moveReady()?'disabled':''}>결정 확정 → 결과 보기</button></div>`}
-function roundView(){if(!S.assignDone||S.assignEditing)return assignView();if(S.round===0&&!S.kickoffDone)return kickoffView();const r=ROUNDS[S.round];return decisionView(r)}
+// Situation-only opening pages. Local navigation state never changes scoring or Firebase records.
+const EPISODES=[
+ {title:'같은 팀, 서로 다른 출발',context:'업무 배정이 끝난 뒤, 첫 TF 회의가 열렸습니다.',scene:'meeting',props:['AI로 만든 초안','기존 자료 검토 중','취합할 보고서'],lines:['저는 AI로 초안부터 만들어볼게요.','저는 기존 자료부터 확인하려고요.','각자 만든 자료는 어떻게 합치죠?']},
+ {title:'“이것도 잠깐 봐줄 수 있죠?”',context:'AI에 능숙한 팀원에게 동료들의 도움 요청이 이어집니다.',scene:'requests',props:['분석 좀 봐주세요','이 자료도 고쳐주세요','내 업무는 퇴근 뒤로'],lines:['이 분석, 한번만 봐주실래요?','AI로 하면 금방 되시죠?','제 자료는 끝났는데, 남의 자료까지 고치고 있어요.']},
+ {title:'자료는 완성됐는데…',context:'막힐 때마다 숙련자가 대신 마무리해준 자료가 제출되고 있습니다.',scene:'handoff',props:['대신 완성한 파일','전달받은 완성본','다음 과제'],lines:['설명하는 것보다 제가 하는 게 빠르긴 해요.','받은 파일로 제출했습니다.','다음에도 같은 작업을 해야 하는데…']},
+ {title:'“이 숫자, 어디서 나온 거죠?”',context:'중간보고를 앞두고, AI가 만든 자료에서 출처 없는 수치가 발견됐습니다.',scene:'evidence',props:['AI 분석 보고서','출처: 미기재','보고 일정 임박'],lines:['이 수치는 원문 어디에 있나요?','AI가 정리해준 내용인데…','다들 아는 것 같아서, 저만 모른다고 말하기 어려워요.']},
+ {title:'박수는 발표한 사람에게',context:'발표와 AI 분석은 칭찬받지만, 정리와 지원에 쓴 시간은 드러나지 않습니다.',scene:'recognition',props:['발표 · AI 분석','회의록 · 자료 정리','협조 요청 · 일정 조율'],lines:['발표 자료가 좋았다는 이야기를 들었어요.','회의록과 자료 정리는 제가 계속 하고 있어요.','제 일이 없어도 되는 일은 아닌데, 평가 때는 안 보이네요.']},
+ {title:'파일은 남았고, 담당자는 자리를 비웠다',context:'AI에 가장 능숙한 팀원이 2주간 자리를 비우게 됐습니다.',scene:'absence',props:['담당자 · 2주 부재','공유된 결과 파일','다시 해야 할 작업'],lines:['2주 동안 자리를 비우게 됐습니다.','파일은 찾았어요.','그런데 이 결과를 어떻게 다시 만들죠?']},
+ {title:'마지막 보고까지, 한 달',context:'운영안 발표가 다가옵니다. 보고 준비와 팀의 마무리 작업이 남아 있습니다.',scene:'finish',props:['최종 발표 자료','팀이 만든 작업 파일','프로젝트 종료 이후'],lines:['발표 자료를 더 다듬을 부분이 있어요.','그동안 만든 파일은 모아뒀어요.','이번 일이 끝나면, 다음엔 저희끼리 할 수 있을까요?']}
+];
+function episodePending(){return S.stage===3&&!S.feedback&&S.assignDone&&!S.assignEditing&&(S.round>0||S.kickoffDone)&&!wsPractice&&!rgPractice&&!wsInWorkshop()&&!rgActive()&&!(S.episodeSeen||[]).includes(S.round)}
+function episodeView(){
+ const ep=EPISODES[S.round],sp=speakerFor(ROUNDS[S.round]);
+ const others=S.team.map(person).filter(p=>p.id!==sp.id);
+ const high=[...S.team.map(person)].sort((a,b)=>effective(b)[0]-effective(a)[0])[0];
+ let actors=[others[0],others[1],sp];
+ if(S.round===2||S.round===5)actors=[high,...S.team.map(person).filter(p=>p.id!==high.id).slice(0,2)];
+ const glyphs={meeting:['✦','▤','▱'],requests:['↗','↗','◷'],handoff:['▤','→','?'],evidence:['▥','?','◷'],recognition:['★','▤','↔'],absence:['◷','▤','?'],finish:['▥','▤','→']}[ep.scene];
+ return `<section class="episode episode-${ep.scene}" aria-labelledby="ep-title"><div class="ep-heading"><span class="ep-number">EPISODE ${String(S.round+1).padStart(2,'0')}</span><h1 id="ep-title" tabindex="-1">${ep.title}</h1><p>${ep.context}</p></div><div class="ep-stage">${actors.map((p,i)=>`<article class="ep-person ep-person-${i}"><div class="ep-prop"><span class="ep-glyph" aria-hidden="true">${glyphs[i]}</span><b>${ep.props[i]}</b><div class="ep-paper" aria-hidden="true"><i></i><i></i><i></i></div></div><div class="ep-character">${portrait(p.id)}<span>${esc(p.n)}</span></div><p class="ep-quote">“${ep.lines[i]}”</p></article>`).join('')}</div><div class="ep-bottom"><button class="primary big" data-action="episode-enter">결정하러 가기 <span aria-hidden="true">→</span></button></div></section>`;
+}
+
+function roundView(){if(!S.assignDone||S.assignEditing)return assignView();if(S.round===0&&!S.kickoffDone)return kickoffView();if(episodePending())return episodeView();const r=ROUNDS[S.round];return decisionView(r)}
 
 // ───────── 3d. 라운드 결과 ─────────
 function metricCards(before=null,animate=false){return `<div class="grid three">${METRICS.map((n,i)=>{const v=S.metrics[i],b=before?before[i]:null;return `<div class="metric"><div class="label"><span>${n}</span>${b!==null?deltaChip(v-b):''}</div><div class="stat"><span ${animate?`data-count="${v}" data-from="${b}"`:''}>${Math.round(animate?b:v)}</span><small> / 100</small></div><div class="track"><span style="width:${animate?b:v}%" ${animate?`data-w="${v}"`:''}></span></div><div class="tiny muted" style="margin-top:6px">${METRIC_SUB[i]}</div></div>`}).join('')}</div>`}
@@ -1382,7 +1426,7 @@ function rgConfetti(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)
 
 // ───────── 렌더·이벤트 ─────────
 function toast(t){const el=document.getElementById('toast');el.textContent=t;clearTimeout(toast.t);toast.t=setTimeout(()=>el.textContent='',4200)}
-function render(){save();if(typeof pcHide==='function')pcHide();document.getElementById('app').innerHTML=wsPractice?shell(workshopView()):rgPractice?shell(rgView()):shell(S.stage===0?mission():S.stage===1?leaderView():S.stage===2?teamView():S.stage===3?(wsInWorkshop()?workshopView():rgActive()?rgView():S.feedback?feedbackView():roundView()):finalView());rgAfter();requestAnimationFrame(animateCounts)}
+function render(){save();const ep=episodePending()&&!new URLSearchParams(location.search).has('admin');document.body.classList.toggle('episode-mode',ep);if(ep){if(typeof pcHide==='function')pcHide();document.getElementById('app').innerHTML=episodeView();return;}if(typeof pcHide==='function')pcHide();document.getElementById('app').innerHTML=wsPractice?shell(workshopView()):rgPractice?shell(rgView()):shell(S.stage===0?mission():S.stage===1?leaderView():S.stage===2?teamView():S.stage===3?(wsInWorkshop()?workshopView():rgActive()?rgView():S.feedback?feedbackView():roundView()):finalView());rgAfter();requestAnimationFrame(animateCounts)}
 function animateCounts(){const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count,from=+el.dataset.from||0,dec=+el.dataset.dec||0;if(reduce){el.textContent=to.toFixed(dec);return}const t0=performance.now(),dur=1100;const step=now=>{const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=(from+(to-from)*e).toFixed(dec);if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step);el.removeAttribute('data-count')});setTimeout(()=>document.querySelectorAll('[data-w]').forEach(el=>{el.style.width=el.dataset.w+'%';el.removeAttribute('data-w')}),60)}
 function goTop(){window.scrollTo({top:0,behavior:'smooth'})}
 function download(data,name){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
@@ -1393,6 +1437,8 @@ document.addEventListener('click',e=>{
  const b=e.target.closest('[data-action]');if(!b||b.disabled)return;
  const a=b.dataset.action,id=Number(b.dataset.id);let top=false;
  switch(a){
+ case'episode-enter':if(episodePending()){S.episodeSeen=[...new Set([...(S.episodeSeen||[]),S.round])];top=true;}break;
+ case'episode-revisit':if(canDecide()){S.episodeSeen=(S.episodeSeen||[]).filter(n=>n!==S.round);top=true;}break;
  case'guide':return guideModal();
  case'fac':return facModal();
  case'ranking':location.href='?admin=1';return;
